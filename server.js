@@ -1,4 +1,10 @@
 // check ;'s where should they be
+// look into bodyparser
+// move routes out to own file to clean and scale.
+//port or env_var.
+//test
+//auth
+
 
 import express from 'express';
 import db from './database.js';
@@ -48,8 +54,6 @@ app.get("/api/books/:id", (req, res, next) => {
 app.post("/api/books/", (req, res, next) => {
   const errors = [];
   console.log('Tryng to post and entry.');
-  console.log(req.body.title);
-  console.log(req.body);
 
   if (!req.body.title) {
     errors.push("No title specified");
@@ -74,8 +78,8 @@ app.post("/api/books/", (req, res, next) => {
     publisher: req.body.publisher,
     description: req.body.description
   }
-  const sql = 'INSERT INTO BookInfo (title, author, year, publisher, description) VALUES (?,?,?,?,?)'
-  var params = [data.title, data.author, data.year, data.publisher, data.description]
+  const sql = "INSERT INTO BookInfo (title, author, year, publisher, description) VALUES (?,?,?,?,?)"
+  const params = [data.title, data.author, data.year, data.publisher, data.description]
   db.run(sql, params, function (err, result) {
     if (err) {
       res.status(400).json({ "error": err.message })
@@ -89,6 +93,53 @@ app.post("/api/books/", (req, res, next) => {
   });
 })
 
+app.patch("/api/books/:id", (req, res, next) => {
+
+  console.log("Trying to update an entry");
+
+  const data = {
+    title: req.body.title,
+    author: req.body.author,
+    year: req.body.year,
+    publisher: req.body.publisher,
+    description: req.body.description
+  };
+
+  db.run(
+    `UPDATE BookInfo set 
+           title = COALESCE(?, title), 
+           author = COALESCE(?, author), 
+           year = COALESCE(?, year),
+           publisher = COALESCE(?, publisher),
+           description = COALESCE(?, description)
+           WHERE id = ?`,
+    [data.title, data.author, data.year, data.publisher, data.description, req.params.id],
+    function (err, result) {
+      if (err) {
+        res.status(400).json({ "error": res.message })
+        return;
+      }
+      res.json({
+        message: "success",
+        data: data,
+        changes: this.changes
+      });
+    });
+})
+
+app.delete("/api/books/:id", (req, res, next) => {
+  console.log("Trying to delete.");
+  db.run(
+    "DELETE FROM BookInfo WHERE id = ?",
+    req.params.id,
+    function (err, result) {
+      if (err) {
+        res.status(400).json({ "error": res.message })
+        return;
+      }
+      res.json({ "message": "deleted", changes: this.changes })
+    });
+})
 
 
 // Default response for any other request
