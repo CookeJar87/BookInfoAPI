@@ -37,17 +37,23 @@ app.get("/api/books", (req, res, next) => {
 });
 
 app.get("/api/books/:id", (req, res, next) => {
-  var sql = "SELECT * FROM BookInfo WHERE id = ?"
-  var params = [req.params.id]
+  console.log("Trying to get a book by ID");
+  const sql = "SELECT * FROM BookInfo WHERE id = ?";
+  const params = [req.params.id];
+  console.log(sql);
+  console.log(params);
+
   db.get(sql, params, (err, row) => {
-    if (err) {
-      res.status(400).json({ "error": err.message });
+    if (row == null) {
+      res.status(400).json({ "error": "No book with ID " + params });
       return;
     }
+    console.log("response " + res.body);
+    console.log("errorMSG " + err);
     res.json({
       "message": "success",
       "data": row
-    })
+    });
   });
 });
 
@@ -71,27 +77,30 @@ app.post("/api/books/", (req, res, next) => {
     res.status(400).json({ "error": errors.join(",") });
     return;
   }
+
   const data = {
     title: req.body.title,
     author: req.body.author,
     year: req.body.year,
     publisher: req.body.publisher,
     description: req.body.description
-  }
-  const sql = "INSERT INTO BookInfo (title, author, year, publisher, description) VALUES (?,?,?,?,?)"
-  const params = [data.title, data.author, data.year, data.publisher, data.description]
+  };
+
+  const sql = "INSERT INTO BookInfo (title, author, year, publisher, description) VALUES (?,?,?,?,?)";
+  const params = [data.title, data.author, data.year, data.publisher, data.description];
+
   db.run(sql, params, function (err, result) {
     if (err) {
-      res.status(400).json({ "error": err.message })
+      res.status(400).json({ "error": err.message });
       return;
     }
     res.json({
       "message": "success",
       "data": data,
       "id": this.lastID
-    })
+    });
   });
-})
+});
 
 app.patch("/api/books/:id", (req, res, next) => {
 
@@ -116,7 +125,7 @@ app.patch("/api/books/:id", (req, res, next) => {
     [data.title, data.author, data.year, data.publisher, data.description, req.params.id],
     function (err, result) {
       if (err) {
-        res.status(400).json({ "error": res.message })
+        res.status(400).json({ "error": res.message });
         return;
       }
       res.json({
@@ -125,7 +134,7 @@ app.patch("/api/books/:id", (req, res, next) => {
         changes: this.changes
       });
     });
-})
+});
 
 app.delete("/api/books/:id", (req, res, next) => {
   console.log("Trying to delete.");
@@ -134,12 +143,12 @@ app.delete("/api/books/:id", (req, res, next) => {
     req.params.id,
     function (err, result) {
       if (err) {
-        res.status(400).json({ "error": res.message })
+        res.status(400).json({ "error": res.message });
         return;
       }
-      res.json({ "message": "deleted", changes: this.changes })
+      res.json({ "message": "deleted", changes: this.changes });
     });
-})
+});
 
 
 // Default response for any other request
@@ -151,4 +160,4 @@ app.use(function (req, res) {
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
-})
+});
