@@ -1,4 +1,8 @@
 // check ;'s where should they be
+//Reject if entry already exists
+//allow optional query params for get?
+//Delete needs to triggger error 404 if delete id doesn't exist or isn't an int.
+//check super picky DB requirements, duplicate titles are ok as long as one of the two other columns are different.
 // look into bodyparser
 // move routes out to own file to clean and scale.
 //port or env_var.
@@ -31,8 +35,6 @@ app.get("/api/books", (req, res, next) => {
     const allBooks = JSON.stringify(rows, null, 2);
     console.log(allBooks);
     res.status(200).send("<pre>" + allBooks + "</pre>");
-    // "message":"success",
-    // "data":rows,  
   });
 });
 
@@ -45,17 +47,16 @@ app.get("/api/books/:id", (req, res, next) => {
 
   db.get(sql, params, (err, row) => {
     if (row == null) {
-      res.status(400).json({ "error": "No book with ID " + params });
+      res.status(404).json({ "error": "No book with ID " + params });
       return;
     }
     console.log("response " + res.body);
     console.log("errorMSG " + err);
-    res.json({
-      "message": "success",
-      "data": row
+    const bookByID = JSON.stringify(row, null, 2);
+    console.log(bookByID);
+    res.status(200).send("<pre>" + bookByID + "</pre>");
     });
   });
-});
 
 app.post("/api/books/", (req, res, next) => {
   const errors = [];
@@ -73,6 +74,9 @@ app.post("/api/books/", (req, res, next) => {
   if (req.body.year != parseInt(req.body.year, 10)) {
     errors.push("Year must be number");
   }
+  //TODO reject if entry already exists...
+  //use absolute equals === and compare the whole object? Thinking out loud.
+
   if (errors.length) {
     res.status(400).json({ "error": errors.join(",") });
     return;
@@ -143,10 +147,10 @@ app.delete("/api/books/:id", (req, res, next) => {
     req.params.id,
     function (err, result) {
       if (err) {
-        res.status(400).json({ "error": res.message });
+        res.status(404).json({ "error": res.message });
         return;
       }
-      res.json({ "message": "deleted", changes: this.changes });
+      res.status(204).json({ "message": "deleted", changes: this.changes });
     });
 });
 
