@@ -1,0 +1,29 @@
+{
+  "name": "bookapi",
+  "version": "1.0.0",
+  "description": "Backend API for a book collection",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Backend",
+    "api",
+    "node",
+    "SQLite",
+    "JavaScript",
+    "books",
+    "collection"
+  ],
+  "author": "Pete Cooke",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "md5": "^2.3.0",
+    "node-libcurl": "^3.0.0",
+    "nodemon": "^2.0.20",
+    "sqlite3": "^5.1.4"
+  }
+}
