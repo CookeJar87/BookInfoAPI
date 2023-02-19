@@ -5,7 +5,7 @@ const getRoutes = express();
 
 getRoutes.get("/", getLandingPage);
 getRoutes.get("/books", getBooks);
-getRoutes.get("/book/:id", getBookById);
+getRoutes.get("/books/:id", getBookById);
 getRoutes.get("/*", defaultGet);
 
 export default getRoutes;

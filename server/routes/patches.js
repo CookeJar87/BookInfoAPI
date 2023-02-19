@@ -3,6 +3,6 @@ import { patchBookById } from '../controllers/patches.js';
 
 const patchRoutes = express();
 
-patchRoutes.patch("/book/:id", patchBookById);
+patchRoutes.patch("/books/:id", patchBookById);
 
 export default patchRoutes;

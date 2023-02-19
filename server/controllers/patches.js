@@ -13,7 +13,7 @@ export const patchBookById = (req, res, next) => {
     };
   
     db.run(
-      `UPDATE BookInfo set 
+      `UPDATE books set 
              title = COALESCE(?, title), 
              author = COALESCE(?, author), 
              year = COALESCE(?, year),

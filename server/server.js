@@ -1,5 +1,5 @@
 // check ;'s where should they be
-//Reject if entry already exists add unique composite to DB
+//Remove unnecessary console logs or comment them out.
 //allow optional query params for get?
 //Delete needs to triggger error 404 if delete id doesn't exist or isn't an int.
 //check super picky DB requirements, duplicate titles are ok as long as one of the two other columns are different.

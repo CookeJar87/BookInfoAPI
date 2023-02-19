@@ -1,27 +1,12 @@
 import db from '../database.js';
+import {directory, resourceNotFoundText} from '../resources/strings.js';
 
 export const getLandingPage = (req, res) => {
-  res.send(`<pre>
-  Welcome to the landing page for Sound Tuition's book collection API
-  
-  GETS
-  / = home,
-  /books = all books,
-  /book/id = get book by id,
-
-  POSTS
-  /book = post new book.
-  
-  PATCHES
-
-  DELETES
-  /book/id = delete book by id,
-
-  </pre>`);
+  res.send(directory);
 }
 
 export const getBooks = (req, res, next) => {
-  const sql = "SELECT * FROM BookInfo";
+  const sql = "SELECT * FROM books";
   const params = [];
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -36,7 +21,7 @@ export const getBooks = (req, res, next) => {
 
 export const getBookById = (req, res, next) => {
   console.log("Trying to get a book by ID");
-  const sql = "SELECT * FROM BookInfo WHERE id = ?";
+  const sql = "SELECT * FROM books WHERE id = ?";
   const params = [req.params.id];
   console.log(sql);
   console.log(params);
@@ -50,30 +35,12 @@ export const getBookById = (req, res, next) => {
     console.log("errorMSG " + err);
     const bookByID = JSON.stringify(row, null, 2);
     console.log(bookByID);
+    //TODO should I replace this with a JSON object?
     res.status(200).send("<pre>" + bookByID + "</pre>");
   });
 }
 
 // Default response for any requests not supported.
 export const defaultGet = (req, res, next) => {
-  res.status(404).send(`<pre>
-  404 resource not found.
-
-  Sadly the resource you are trying to reach is unavailable please try one of the following resources:
-
-  GETS
-  / = home,
-  /books = all books,
-  /book/id = get book by id,
-
-  POSTS
-  /book = post new book.
-  
-  PATCHES
-
-  DELETES
-  /book/id = delete book by id,
-
-  Have a top day whatever you are doing.
-  </pre>`);
+  res.status(404).send(resourceNotFoundText);
 }
