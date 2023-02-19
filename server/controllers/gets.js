@@ -4,9 +4,19 @@ export const getLandingPage = (req, res) => {
   res.send(`<pre>
   Welcome to the landing page for Sound Tuition's book collection API
   
-  localhost:9000/ = home,
-  localhost:9000/books = all books,
-  localhost:9000/books/id = get book by id,
+  GETS
+  / = home,
+  /books = all books,
+  /book/id = get book by id,
+
+  POSTS
+  /book = post new book.
+  
+  PATCHES
+
+  DELETES
+  /book/id = delete book by id,
+
   </pre>`);
 }
 
@@ -42,4 +52,28 @@ export const getBookById = (req, res, next) => {
     console.log(bookByID);
     res.status(200).send("<pre>" + bookByID + "</pre>");
   });
+}
+
+// Default response for any requests not supported.
+export const defaultGet = (req, res, next) => {
+  res.status(404).send(`<pre>
+  404 resource not found.
+
+  Sadly the resource you are trying to reach is unavailable please try one of the following resources:
+
+  GETS
+  / = home,
+  /books = all books,
+  /book/id = get book by id,
+
+  POSTS
+  /book = post new book.
+  
+  PATCHES
+
+  DELETES
+  /book/id = delete book by id,
+
+  Have a top day whatever you are doing.
+  </pre>`);
 }

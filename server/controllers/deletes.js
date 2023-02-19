@@ -6,10 +6,12 @@ export const deleteBookById = (req, res, next) => {
     const params = [req.params.id];
 
     db.run(sql, params, function (err, result) {
-            if (err) {
-                res.status(404).json({ "error": res.message });
-                return;
-            }
-            res.status(204).json({ "message": "deleted", changes: this.changes });
+        if (err) {
+            res.status(404).json({ "error": err.message });
+            return;
+        }
+        res.status(200).json({
+            "Number of rows deleted: ": this.changes
         });
+    });
 }
