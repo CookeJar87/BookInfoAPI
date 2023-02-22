@@ -1,26 +1,24 @@
 import db from '../database.js';
+import errorCodes from '../resources/errorCodes.js';
 
 export const postBook = (req, res, next) => {
   const errors = [];
   console.log('Tryng to post and entry.');
 
   if (!req.body.title) {
-    errors.push("Error Code 1) No title specified. Please Provide a title.");
+    errors.push(errorCodes.errorCode1);
   }
   if (!req.body.author) {
-    errors.push("Error Code 2) No author specified. Please provide an author.");
+    errors.push(errorCodes.errorCode2);
   }
   if (!req.body.year) {
-    errors.push("Error Code 3) No year specified. Please provide a date, for example, in the format YYYY.");
+    errors.push(errorCodes.errorCode3);
   }
   if (req.body.year != parseInt(req.body.year, 10)) {
-    errors.push("Error Code 4) Year must be a number. Please provide a date, for example, in the format YYYY.");
+    errors.push(errorCodes.errorCode4);
   }
   if (req.body.publisher == "") {
-    errors.push(
-      `Error Code 5) If publisher is included it cannot be empty. ` +
-      `Please either remove the publisher from your request or fill it in.\
-       `);
+    errors.push(errorCodes.errorCode5);
   }
 
   if (errors.length) {
@@ -46,8 +44,8 @@ export const postBook = (req, res, next) => {
     }
     res.status(200).json({
       "message": "success",
-      "data": data,
-      "id": this.lastID
+      "id": this.lastID,
+      "data": data
     });
   });
 }

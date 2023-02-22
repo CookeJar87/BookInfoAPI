@@ -1,5 +1,5 @@
-export const directory = `<pre>
-Welcome to the landing page for Sound Tuition's book collection API
+export const landingPageMsg = `<pre>
+Welcome to the landing page for Pete Cooke's book collection API
 
 GETS
 / = home,
@@ -17,8 +17,8 @@ DELETES
 
 </pre>`;
 
-export const resourceNotFoundText = `<pre>
-404 resource not found.
+export const resourceNotFoundMsg = `<pre>
+404 resource not found...
 
 Sadly the resource you are trying to reach is unavailable please try one of the following resources:
 

@@ -1,16 +1,15 @@
 //can I or do I need to keep the verbose
 import sqlite3 from 'sqlite3';
-import md5 from 'md5';
 
-const DBSOURCE = "books.sqlite"
+const DBSOURCE = "books.sqlite";
 
 let db = new sqlite3.Database(DBSOURCE, (err) => {
     if (err) {
         // Cannot open database
-        console.error(err.message)
-        throw err
+        console.error(err.message);
+        throw err;
     } else {
-        console.log('Connected to the SQLite database.')
+        console.log('Connected to the SQLite database.');
         db.run(`CREATE TABLE books (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL, 
@@ -35,4 +34,4 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     }
 });
 
-export default db
+export default db;
