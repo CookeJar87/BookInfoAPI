@@ -22,7 +22,7 @@ export const getBooks = (req, res, next) => {
     else {
       const authorParam = req.query['author'];
       params.push(authorParam);
-      const authorClause =' author = ? ' 
+      const authorClause =' author LIKE ? ' 
       sql += authorClause;
     }
   }
@@ -34,7 +34,7 @@ export const getBooks = (req, res, next) => {
       const yearParam = req.query['year'];
       params.push(yearParam);
       if (req.query.author) {sql += "AND " }
-      const andYearClause = 'year = ? ';
+      const andYearClause = 'year LIKE ? ';
       sql += andYearClause;
     }
   }
@@ -47,7 +47,7 @@ export const getBooks = (req, res, next) => {
       const publisherParam = req.query['publisher'];
       params.push(publisherParam);
       if (req.query.author || req.query.year) {sql += "AND " }
-      const andPublisherClause = 'publisher = ?';
+      const andPublisherClause = 'publisher LIKE ?';
       sql += andPublisherClause;
     }
   }

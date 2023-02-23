@@ -27,5 +27,5 @@ app.use("/", postRoutes);
 app.use("/", patchRoutes);
 
 app.listen(port, () => {
-  console.log(`Express server listening on port ${port}`);
+  console.log(`Express server listening on port ${port}. `);
 });
