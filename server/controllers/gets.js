@@ -48,7 +48,6 @@ export const getBooks = (req, res, next) => {
       sql += andPublisherClause;
     }
   }
-  console.log(sql);
 
   if (errors.length) {
     res.status(400).json({ "Error(s)": errors.join(" ") });
@@ -66,11 +65,8 @@ export const getBooks = (req, res, next) => {
 }
 
 export const getBookById = (req, res, next) => {
-  console.log("Trying to get a book by ID");
   const sql = "SELECT * FROM books WHERE id = ?";
   const params = [req.params.id];
-  console.log(sql);
-  console.log(params);
 
   db.get(sql, params, (err, row) => {
     if (row == null) {

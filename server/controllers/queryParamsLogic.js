@@ -5,8 +5,6 @@ import errorCodes from '../resources/errorCodes.js';
 const queryParamsLogic = function (req, sql, whereClause, params, errors) {
 
   if (req.query) { sql += whereClause; }
-  console.log(req.query);
-  console.log(req.query['author'])
   if (req.query.author) {
     if (req.query['author'] === "") {
       errors.push(errorCodes.errorCode1);
@@ -42,14 +40,11 @@ const queryParamsLogic = function (req, sql, whereClause, params, errors) {
       sql += andPublisherClause;
     }
   }
-  console.log(sql);
-  console.log(params);
 
   if (errors.length) {
     res.status(400).json({ "Error(s)": errors.join(" ") });
     return;
   }
-  console.log(sql);
   return sql;
 
 }
