@@ -9,4 +9,4 @@ const errorCodes = {
     `
 }
 
-export default errorCodes
+export default errorCodes;

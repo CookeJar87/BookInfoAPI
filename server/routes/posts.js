@@ -1,5 +1,5 @@
 import express from 'express';
-import { postBook } from '../controllers/posts.js'
+import { postBook } from '../controllers/posts.js';
 
 const postRoutes = express();
 

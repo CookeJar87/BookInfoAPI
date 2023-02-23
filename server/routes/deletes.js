@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteBookById } from '../controllers/deletes.js'
+import { deleteBookById } from '../controllers/deletes.js';
 
 const deleteRoutes = express();
 

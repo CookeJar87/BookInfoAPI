@@ -8,13 +8,11 @@ export const getLandingPage = (req, res) => {
 
 export const getBooks = (req, res, next) => {
   let sql = 'SELECT * FROM books ';
-  const whereClause = 'WHERE '
+  const whereClause = 'WHERE ';
   const params = [];
   const errors = [];
 
-  if (Object.keys(req.query).length !== 0) {sql += whereClause;}
-  console.log(req.query);
-  console.log(req.query['author']) 
+  if (Object.keys(req.query).length !== 0) { sql += whereClause; }
   if (req.query.author) {
     if (req.query['author'] === "") {
       errors.push(errorCodes.errorCode1);
@@ -22,7 +20,7 @@ export const getBooks = (req, res, next) => {
     else {
       const authorParam = req.query['author'];
       params.push(authorParam);
-      const authorClause =' author LIKE ? ' 
+      const authorClause = ' author LIKE ? ';
       sql += authorClause;
     }
   }
@@ -30,23 +28,22 @@ export const getBooks = (req, res, next) => {
     if (req.query.year != parseInt(req.query.year, 10)) {
       errors.push(errorCodes.errorCode4);
     }
-    else{
+    else {
       const yearParam = req.query['year'];
       params.push(yearParam);
-      if (req.query.author) {sql += "AND " }
+      if (req.query.author) { sql += "AND "; }
       const andYearClause = 'year LIKE ? ';
       sql += andYearClause;
     }
   }
   if (req.query.publisher) {
-    if (req.query.publisher == "")
-    {
+    if (req.query.publisher == "") {
       errors.push(errorCodes.errorCode1);
     }
-    else{
+    else {
       const publisherParam = req.query['publisher'];
       params.push(publisherParam);
-      if (req.query.author || req.query.year) {sql += "AND " }
+      if (req.query.author || req.query.year) { sql += "AND "; }
       const andPublisherClause = 'publisher LIKE ?';
       sql += andPublisherClause;
     }
@@ -58,7 +55,7 @@ export const getBooks = (req, res, next) => {
     return;
   }
 
-  //For a large dataset replace db.all() with db.each()
+  //For a large dataset investigate replacing db.all() with db.each()
   db.all(sql, params, (err, rows) => {
     if (err) {
       res.status(400).json({ "error": err.message });

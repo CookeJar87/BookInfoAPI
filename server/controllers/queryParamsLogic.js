@@ -1,10 +1,12 @@
+//Experimental file for possible future development.
+
 import errorCodes from '../resources/errorCodes.js';
 
 const queryParamsLogic = function (req, sql, whereClause, params, errors) {
 
-if (req.query) {sql += whereClause;}
+  if (req.query) { sql += whereClause; }
   console.log(req.query);
-  console.log(req.query['author']) 
+  console.log(req.query['author'])
   if (req.query.author) {
     if (req.query['author'] === "") {
       errors.push(errorCodes.errorCode1);
@@ -12,7 +14,7 @@ if (req.query) {sql += whereClause;}
     else {
       const authorParam = req.query['author'];
       params.push(authorParam);
-      const authorClause ='author = ? ' 
+      const authorClause = 'author = ? '
       sql += authorClause;
     }
   }
@@ -20,23 +22,22 @@ if (req.query) {sql += whereClause;}
     if (req.query.year != parseInt(req.query.year, 10)) {
       errors.push(errorCodes.errorCode4);
     }
-    else{
+    else {
       const yearParam = req.query['year'];
       params.push(yearParam);
-      if (req.query.author) {sql += "AND " }
+      if (req.query.author) { sql += "AND " }
       const andYearClause = 'year = ? ';
       sql += andYearClause;
     }
   }
   if (req.query.publisher) {
-    if (req.query.publisher == "")
-    {
+    if (req.query.publisher == "") {
       errors.push(errorCodes.errorCode1);
     }
-    else{
+    else {
       const publisherParam = req.query['publisher'];
       params.push(publisherParam);
-      if (req.query.author || req.query.year) {sql += "AND " }
+      if (req.query.author || req.query.year) { sql += "AND " }
       const andPublisherClause = 'publisher = ?';
       sql += andPublisherClause;
     }
@@ -48,7 +49,7 @@ if (req.query) {sql += whereClause;}
     res.status(400).json({ "Error(s)": errors.join(" ") });
     return;
   }
-console.log(sql);
+  console.log(sql);
   return sql;
 
 }

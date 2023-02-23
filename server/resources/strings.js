@@ -10,7 +10,7 @@ POSTS
 /books = post a new book.
 
 PATCHES
-/books = patch an entry.
+/books/id = update an entry.
 
 DELETES
 /books/id = delete a book by id,
@@ -31,6 +31,7 @@ POSTS
 /books = post new book.
 
 PATCHES
+/books/id = update an entry.
 
 DELETES
 /books/id = delete book by id,
