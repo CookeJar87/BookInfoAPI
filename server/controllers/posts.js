@@ -3,7 +3,6 @@ import errorCodes from '../resources/errorCodes.js';
 
 export const postBook = (req, res, next) => {
   const errors = [];
-  console.log('Tryng to post and entry.');
 
   if (!req.body.title) {
     errors.push(errorCodes.errorCode1);
@@ -43,9 +42,10 @@ export const postBook = (req, res, next) => {
       return;
     }
     res.status(200).json({
-      "message": "success",
       "id": this.lastID,
-      "data": data
+      //The following can be added if more data was desired on the response.
+      //"message": "success",
+      //"data": data
     });
   });
 }

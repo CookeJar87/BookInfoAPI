@@ -64,10 +64,7 @@ export const getBooks = (req, res, next) => {
       res.status(400).json({ "error": err.message });
       return;
     }
-    //This solution is just to allow 'pretty' testing using a browser
-    //and could be refactored to simply return the json body.  
-    const searchResult = JSON.stringify(rows, null, 2);
-    res.status(200).send("<pre>" + searchResult + "</pre>");
+    res.status(200).send(JSON.stringify(rows, null, 2));
   });
 }
 
@@ -83,12 +80,7 @@ export const getBookById = (req, res, next) => {
       res.status(404).json({ "error": "No book with ID " + params });
       return;
     }
-    console.log("response " + res.body);
-    console.log("errorMSG " + err);
-    const bookByID = JSON.stringify(row, null, 2);
-    console.log(bookByID);
-    //TODO should I replace this with a JSON object?
-    res.status(200).send("<pre>" + bookByID + "</pre>");
+    res.status(200).send(JSON.stringify(row, null, 2));
   });
 }
 

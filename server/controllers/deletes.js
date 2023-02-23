@@ -1,13 +1,18 @@
 import db from "../database.js";
 
 export const deleteBookById = (req, res, next) => {
-    console.log("Trying to delete.");
     const sql = "DELETE FROM books WHERE id = ? ";
     const params = [req.params.id];
 
-    db.run(sql, params, function (err, result) {
+    db.run(sql, params, (err, rows) => {
+        console.log(rows);
         if (err) {
             res.status(404).json({ "error": err.message });
+            return;
+        }
+        else if(rows != null)
+        {
+            res.status(404).json({ "error": "No book with ID " + params });
             return;
         }
         res.status(204).json({});
